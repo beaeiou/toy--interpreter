@@ -19,11 +19,9 @@ class StringTypeTest {
         StringValue val2 = new StringValue("test.in");
         StringValue val3 = new StringValue("other.in");
 
-        // Test equals
         assertEquals(val1, val2);
         assertNotEquals(val1, val3);
 
-        // Test hashCode
         assertEquals(val1.hashCode(), val2.hashCode());
         assertNotEquals(val1.hashCode(), val3.hashCode());
     }
