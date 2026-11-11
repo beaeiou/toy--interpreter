@@ -2,50 +2,30 @@ package interpreter;
 
 import interpreter.controller.Controller;
 import interpreter.model.PrgState;
-import interpreter.model.adt.MyDictionary;
-import interpreter.model.adt.MyList;
-import interpreter.model.adt.MyStack;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
 import interpreter.repository.Repository;
+import interpreter.view.ExitCommand;
+import interpreter.view.RunExampleCommand;
+import interpreter.view.TextMenu;
 import interpreter.view.Examples;
 
-import java.util.Scanner;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Select a program to run (1, 2, 3) or 0 to exit:");
-            System.out.println("1. " + Examples.EX1);
-            System.out.println("2. " + Examples.EX2);
-            System.out.println("3. " + Examples.EX3);
-            System.out.print("> ");
+        List<IStmt> programs = List.of(Examples.EX1, Examples.EX2, Examples.EX3);
+        TextMenu menu = new TextMenu();
 
-            String input = scanner.nextLine();
-            if (input.equals("0")) break;
+        menu.addCommand(new ExitCommand("0", "exit"));
 
-            IStmt selectedProgram = switch (input) {
-                case "1" -> Examples.EX1;
-                case "2" -> Examples.EX2;
-                case "3" -> Examples.EX3;
-                default -> null;
-            };
-
-            if (selectedProgram == null) {
-                System.out.println("Invalid selection.");
-                continue;
-            }
-
-            PrgState state = PrgState.of(selectedProgram);
-            IRepository repo = new Repository(state, "log.txt");
+        for (int i = 0; i < programs.size(); i++) {
+            IStmt program = programs.get(i);
+            IRepository repo = new Repository(PrgState.of(program), "log" + (i + 1) + ".txt");
             Controller controller = new Controller(repo, true);
-
-            try {
-                controller.allStep();
-            } catch (Exception e) {
-                System.out.println("Execution Error: " + e.getMessage());
-            }
+            menu.addCommand(new RunExampleCommand(String.valueOf(i + 1), program.toString(), controller));
         }
+
+        menu.show();
     }
 }
