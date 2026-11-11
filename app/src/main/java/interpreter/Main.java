@@ -37,8 +37,7 @@ public class Main {
                 continue;
             }
 
-            PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), selectedProgram);
-            IRepository repo = new Repository(state);
+            PrgState state = PrgState.of(selectedProgram);            IRepository repo = new Repository(state);
             Controller controller = new Controller(repo, true);
 
             try {

@@ -20,7 +20,7 @@ class StmtTest {
 
     @BeforeEach
     void setUp() {
-        state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new NopStmt());
+        state = PrgState.of(new NopStmt());
         // Pop the original program so we have an empty stack to test specific statements
         try { state.getExeStack().pop(); } catch (Exception ignored) {}
     }
