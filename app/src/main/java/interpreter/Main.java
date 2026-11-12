@@ -14,8 +14,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<IStmt> programs = List.of(Examples.EX1, Examples.EX2, Examples.EX3);
-        TextMenu menu = new TextMenu();
+        List<IStmt> programs = List.of(Examples.EX1, Examples.EX2, Examples.EX3, Examples.EX4, Examples.EX5);        TextMenu menu = new TextMenu();
 
         menu.addCommand(new ExitCommand("0", "exit"));
 
